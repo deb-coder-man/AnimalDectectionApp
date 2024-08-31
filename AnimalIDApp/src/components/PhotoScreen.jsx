@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import PhotoProcessing from '../PhotoProcessing';
 
-import { set } from "firebase/database";
 
 function PhotoScreen() {
   const [image, setImage] = useState(null);  // State to hold the captured image
@@ -86,29 +85,45 @@ function PhotoScreen() {
   return (
     <div className="AnimalInfo-container">
       <h1 style={{marginTop: "50px"}}>Snap & Identify</h1>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "3rem",
+      }}>
+        <h1 style={{fontSize: "2rem"}}>UPLOAD AN IMAGE</h1>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <h1 style={{fontSize: "2rem"}}>OR</h1>
+        <button className="button-33" onClick={activateCamera}>Open Camera</button>
+      </div>
       <div style={{margin: "40px",
                   marginBottom: "5px",
                   display:"flex",
                   gap: "5rem"}}   
        >
-        <button className="button-33" onClick={activateCamera}>Open Camera</button>
-        <button className="button-33" onClick={stopCamera}>Close Camera</button> 
+        {showCamera && <button className="button-33" onClick={stopCamera}>Close Camera</button>} 
       </div>
       <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '20px',
-        margin: '20px'
-      }}>
-        {showCamera && <video ref={videoRef} style={{ width: '600px' }} />}
-        {showImage && <img src={image} alt="Captured" style={{ width: '600px', height: 'auto' }} />}
-        <canvas ref={canvasRef} style={{ display: 'none' }} width="300" height="200"></canvas>
-        {showCamera && <button className="capture" onClick={captureImage}>Capture</button>}
-      </div>
-      <div>
-        <PhotoProcessing image={image} />
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "20px",
+        }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          margin: '20px'
+        }}>
+          {showCamera && <video ref={videoRef} style={{ width: '600px' }} />}
+          {showImage && <img src={image} alt="Captured" style={{ width: '600px', height: 'auto', borderRadius: "3rem" }} />}
+          <canvas ref={canvasRef} style={{ display: 'none' }} width="300" height="200"></canvas>
+          {showCamera && <button className="capture" onClick={captureImage}>Capture</button>}
+        </div>
+        <div>
+          {showImage && <PhotoProcessing image={image} />}
+        </div>
       </div>
       <div className = "home-button-container"> <button className = "home-button" onClick={goBack}><i className ="fas fa-home"></i> Home </button></div>
       

@@ -7,22 +7,32 @@
     background-color: #beedbe;
 }
 
-.Animal-Container {
-    display: flex;
-    flex-direction: column;    
-    width: 50vw;
-    height: 50vh;
-}
-
 .AnimalInfo-container h1 {
+  font-family: "Inter"; 
     font-size: 80px;
 }
 
-.Animal-Container > p {
-    
+
+.Animal-Container {
+  font-family: "Inter"; 
+    display: flex;
+    flex-direction: column;    
+    max-width: 30rem ;
+    height: auto;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 
+.Animal-Container h3 {
+  font-family: "Inter"; 
+    font-size: 40px;
+}
+
+.Animal-Container p {
+  font-family: "Inter";   
+    font-size: 30px;
+}
 
 .capture {
   align-items: center;

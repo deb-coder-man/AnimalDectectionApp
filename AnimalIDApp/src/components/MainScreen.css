@@ -6,16 +6,16 @@
     height: 100vh;
     background-color: #beedbe;
     color: #333;
-    background-image: url('./squad.jpg');
+    background-image: url('./LeafyBack.png');
     background-repeat: no-repeat;
-    background-size: cover;    
+    background-size: 100% 100%;  
 }
 
 .main-title {
-    margin-top: 10rem;
+    margin-top: 40vh;
     text-align: center;
     font-size: 7em;
-    color:black;
+    color:beige;
     font-family: "New Amsterdam";
     /*color: #4a5568; */
 }
@@ -25,7 +25,7 @@
 .button-33 {
     background-color: beige;
   border-radius: 100px;
-  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
   color: rgb(1, 50, 20);
   cursor: pointer;
   display: inline-block;
@@ -45,8 +45,8 @@
 }
 
 .button-33:hover {
-  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
+  box-shadow: 2px 2px 1px black;
+  transform: scale(1.05) rotate(-3deg);
 }
 
 .home-button-container {

@@ -12,3 +12,14 @@ button {
     font-family: "New Amsterdam";
     margin: 0;
 }
+
+input[type="file"] {
+    
+    text-align: center;
+    padding: 1rem 1.8rem;
+    padding-right: 0rem;
+    cursor: pointer;
+    background-color: beige;
+    border-radius: 3rem; /* Rounded corners */
+    font-size: 1.2rem;
+}
