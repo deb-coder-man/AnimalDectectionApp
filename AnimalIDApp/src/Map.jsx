@@ -18,25 +18,25 @@ const center = {
 
 
 
-const fetchGIFs = async (searchTerm) => {
-  const apiKey = import.meta.env.VITE_TENOR_APIKEY // Replace with your actual API key
-  const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(searchTerm)}&key=${apiKey}&limit=10`;
+// const fetchGIFs = async (searchTerm) => {
+//   const apiKey = import.meta.env.VITE_TENOR_APIKEY // Replace with your actual API key
+//   const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(searchTerm)}&key=${apiKey}&limit=10`;
 
-  try {
-    const response = await axios.get(url);
-    const gifs = response.data.results;
+//   try {
+//     const response = await axios.get(url);
+//     const gifs = response.data.results;
     
-    // Log the GIF URLs
-    gifs.forEach(gif => {
-      console.log(gif.url); // URL to the GIF page
-      console.log(gif.media_formats.gif.url); // URL to the actual GIF
-    });
-  } catch (error) {
-    console.error('Error fetching GIFs:', error);
-  }
-};
+//     // Log the GIF URLs
+//     gifs.forEach(gif => {
+//       console.log(gif.url); // URL to the GIF page
+//       console.log(gif.media_formats.gif.url); // URL to the actual GIF
+//     });
+//   } catch (error) {
+//     console.error('Error fetching GIFs:', error);
+//   }
+// };
 const Map = () => {
-  fetchGIFs('cats');
+  // fetchGIFs('cats');
   const [map, setMap] = useState(null);
   const [enteredAnimal, setEnteredAnimal] = useState('');
   const [sightings, setSightings] = useState([]);
