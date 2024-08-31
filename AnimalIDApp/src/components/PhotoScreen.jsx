@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import PhotoProcessing from '../PhotoProcessing';
 
 function PhotoScreen() {
-  const [animalName, setAnimalName] = useState("Name of the Animal");
-  const [species, setSpecies] = useState("Species");
-  const [description, setDescription] = useState("Brief Description");
   const [image, setImage] = useState(null);  // State to hold the captured image
   const navigate = useNavigate();
   const videoRef = useRef(null);
@@ -74,11 +71,7 @@ function PhotoScreen() {
         <button onClick={captureImage}>Capture</button>
       </div>
       <div>
-        <h3>Animal Information</h3>
-        <p><strong>Name:</strong> {animalName}</p>
-        <p><strong>Species:</strong> {species}</p>
-        <p><strong>Description:</strong> {description}</p>
-        {image && <PhotoProcessing image={image} />}
+        <PhotoProcessing image={image} />
       </div>
       <button onClick={goBack}>Go Back to Home</button>
     </div>

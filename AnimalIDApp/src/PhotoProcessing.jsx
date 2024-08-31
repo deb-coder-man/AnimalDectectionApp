@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 export default function PhotoProcessing(props) {
 
-    const [labels, setLabels] = useState([]);
-
+    const [labels, setLabels] = useState(" , , , ");
+    const [animal, setAnimal] = useState([]);
     const image = props.image;
 
     React.useEffect(() => {
@@ -26,13 +26,21 @@ export default function PhotoProcessing(props) {
             }
         };
         fetchLabels();
-        console.log("Api called");
-
     }, [image]);
+
+    React.useEffect(() => {
+        let parts = labels.split(",");
+        setAnimal(parts);
+    }, [labels]);
+  
 
     return (
         <div>
-            <h1>{labels}</h1>
+            <h3>Animal Information</h3>
+            <p><strong>Name:</strong> {animal[0]}</p>
+            <p><strong>Species:</strong> {animal[1]}</p>
+            <p><strong>Endangered Level:</strong> {animal[2]}</p>
+            <p><strong>Description:</strong>{animal[3]}</p>
         </div>
     );
 }
