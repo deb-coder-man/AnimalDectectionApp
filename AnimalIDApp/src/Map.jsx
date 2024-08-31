@@ -121,8 +121,13 @@ const Map = () => {
       if(map){
         map.setZoom(3);
         map.setCenter(center);
+<<<<<<< HEAD
       }    
 
+=======
+      }
+    
+>>>>>>> 5b2ef09ef85dde97c048292f3910a753d6a75d61
       heatmapRef.current = new window.google.maps.visualization.HeatmapLayer({
         data: sightings,
         map: map,
@@ -148,6 +153,7 @@ const Map = () => {
     fetchGIF(item.name);
   };
 
+  
   const formatResult = (item) => {
     return (
       <span>{item.name}</span>
