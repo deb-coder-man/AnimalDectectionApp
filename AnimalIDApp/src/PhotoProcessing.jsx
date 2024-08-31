@@ -10,10 +10,13 @@ export default function PhotoProcessing(props) {
     const fetchLabels = async () => {
         try {
             const response = await fetch('http://localhost:3001/openai', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'image': `${image}`,
                 },
+                body: JSON.stringify({
+                image: image, // Assuming `image` is a Base64 string
+                }),
             });
             const labelsData = await response.json();
             setLabels(labelsData.message.content); 

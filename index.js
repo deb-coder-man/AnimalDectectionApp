@@ -16,18 +16,17 @@ const openai = new OpenAI();
 app.use(cors());
 app.use(express.json());
 
+
 function encodeImage(imagePath) {
   const image = fs.readFileSync(imagePath);
   return image.toString('base64');
 }
 
-
-
-app.get('/openai', async (req, res) => {
+app.post('/openai', async (req, res) => {
   try {
 
-    const { image } = req.headers;
-    const base64Image = encodeImage(image);
+    const { image } = req.body;
+    // const base64Image = encodeImage(image);
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -39,7 +38,7 @@ app.get('/openai', async (req, res) => {
             {
               type: "image_url",
               image_url: {
-                "url": `data:image/jpeg;base64,${base64Image}`,
+                "url": `data:image/jpeg;base64,${image}`,
               },
             },
           ],
