@@ -1,29 +1,65 @@
 .searchContainer {
   position: absolute;
+  display: flex;
+  flex-direction: row;
   top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1; 
   width: 90%; 
   margin: 0;
+  height:10%;
+  align-items: center;
+  justify-content: space-between ;
+  gap: 20px;
 }
 
 .animalInput {
   width: 100%;
   margin: 0;
-}
 
+}
+.animal-gif{
+
+top:0;
+left:0;
+height:50px;
+width:50px;
+}
 .map {
   top:0%;
-  height: 100vh !important;
-  width: 100vh;
+  height: 100vh ;
+  width: 100vw;
   margin: 0;
   padding: 0;
 }
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+
+
+.back-button-map {
+  background-color: #5002EF;
+  border-radius: 30px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  /* padding: 7px 20px; */
+  /* padding: 20px 40px; */
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 15px;
+  user-select: none;
+width: 100px;
+height: 50px;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+@media (max-width: 768px) {
+  .back-button-map {
+    border-radius: 10px; height: 50px; width: 50px;
+  }
 }
   
