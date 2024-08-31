@@ -11,6 +11,7 @@ const app = express();
 const port = 3001;
 
 const OpenAI = require('openai');
+const { type } = require('os');
 const openai = new OpenAI();
 
 app.use(cors());
@@ -35,7 +36,7 @@ app.post('/openai', async (req, res) => {
         {
           role: "user",
           content: [
-            { type: "text", text: "Give me the type of animal, common species name, endangered level, only those words nothing else" },
+            { type: "text", text: "Analyze the image of the animal provided in the request. Return the following details as a single line of comma-separated values: Animal Name, Species, Endangered Level, short desciption without any commas. Make sure there is no additional text, just the CSV data." },
             {
               type: "image_url",
               image_url: {
