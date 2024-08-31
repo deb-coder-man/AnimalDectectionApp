@@ -60,8 +60,8 @@ function PhotoScreen() {
   };
 
   return (
-    <div>
-      <h1>Photo Screen</h1>
+    <div className="AnimalInfo-container">
+      <h1 style={{marginTop: "50px"}}>Animal Identification</h1>
       <input type="file" accept="image/*" onChange={handleImageChange} />
       <button onClick={activateCamera}>Open Camera</button>
       <button onClick={stopCamera}>Close Camera</button> {/* Close Camera Button */}

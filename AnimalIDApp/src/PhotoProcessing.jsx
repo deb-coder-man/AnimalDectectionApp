@@ -1,5 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import OpenAI from 'openai';
+import './PhotoProcessing.css';
+
 
 export default function PhotoProcessing(props) {
 
@@ -10,17 +13,26 @@ export default function PhotoProcessing(props) {
     React.useEffect(() => {
         const fetchLabels = async () => {
             try {
-                const response = await fetch('http://localhost:3001/openai', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                    image: image, // Assuming `image` is a Base64 string
-                    }),
-                });
-                const labelsData = await response.json();
-                setLabels(labelsData.message.content); 
+
+                const response = await openai.chat.completions.create({
+                    model: "gpt-4o-mini",
+                    messages: [
+                      {
+                        role: "user",
+                        content: [
+                          { type: "text", text: "Analyze the image of the animal provided in the request. Return the following details as a single line of comma-separated values: Animal Name, Species, Endangered Level, short desciption without any commas. Make sure there is no additional text, just the CSV data." },
+                          {
+                            type: "image_url",
+                            image_url: {
+                              "url": `${image}`,
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  });
+                  setLabels(response.choices[0].message.content); 
+
             } catch (error) {
                 console.error('Error fetching labels:', error);
             }
@@ -35,7 +47,7 @@ export default function PhotoProcessing(props) {
   
 
     return (
-        <div>
+        <div className='Animal-Container'>
             <h3>Animal Information</h3>
             <p><strong>Name:</strong> {animal[0]}</p>
             <p><strong>Species:</strong> {animal[1]}</p>
