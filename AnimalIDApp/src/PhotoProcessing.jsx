@@ -1,11 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import './App.css';
 
-export default function App() {
+export default function PhotoProcessing(props) {
 
     const [labels, setLabels] = useState([]);
 
-    const image = './cat.jpeg';
+    const image = props.image;
 
     const fetchLabels = async () => {
         try {

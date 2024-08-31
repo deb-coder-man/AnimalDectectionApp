@@ -2,13 +2,13 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+const fs = require('fs');
+
 const express = require('express');
-const vision = require('@google-cloud/vision');
 const cors = require('cors');
 
 const app = express();
 const port = 3001;
-
 
 const OpenAI = require('openai');
 const openai = new OpenAI();
@@ -16,8 +16,18 @@ const openai = new OpenAI();
 app.use(cors());
 app.use(express.json());
 
+function encodeImage(imagePath) {
+  const image = fs.readFileSync(imagePath);
+  return image.toString('base64');
+}
+
+
+
 app.get('/openai', async (req, res) => {
   try {
+
+    const { image } = req.headers;
+    const base64Image = encodeImage(image);
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -29,7 +39,7 @@ app.get('/openai', async (req, res) => {
             {
               type: "image_url",
               image_url: {
-                "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Salmo_salar.jpg",
+                "url": `data:image/jpeg;base64,${base64Image}`,
               },
             },
           ],
