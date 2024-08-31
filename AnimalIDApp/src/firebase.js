@@ -1,8 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, get, child } from 'firebase/database';
-import { getFirestore } from 'firebase/firestore'; // Only if using Firestore in the future
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
