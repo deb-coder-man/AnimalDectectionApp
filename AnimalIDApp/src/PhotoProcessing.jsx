@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import OpenAI from 'openai';
 import './PhotoProcessing.css';
+import { set } from 'firebase/database';
 
 
 export default function PhotoProcessing(props) {
@@ -11,6 +12,7 @@ export default function PhotoProcessing(props) {
     const image = props.image;
 
     React.useEffect(() => {
+        setLabels(" , , , ");
         const fetchLabels = async () => {
             try {
 
@@ -49,10 +51,10 @@ export default function PhotoProcessing(props) {
     return (
         <div className='Animal-Container'>
             <h3>Animal Information</h3>
-            <p><strong>Name:</strong> {animal[0]}</p>
-            <p><strong>Species:</strong> {animal[1]}</p>
-            <p><strong>Endangered Level:</strong> {animal[2]}</p>
-            <p><strong>Description:</strong>{animal[3]}</p>
+            <p><strong>Name: </strong> {animal[0]}</p>
+            <p><strong>Species: </strong> {animal[1]}</p>
+            <p><strong>Endangered Level: </strong> {animal[2]}</p>
+            <p><strong>Description: </strong>{animal[3]}</p>
         </div>
     );
 }
