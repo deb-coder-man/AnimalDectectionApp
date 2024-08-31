@@ -5,7 +5,7 @@ import { ref, get } from "firebase/database";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import { Link } from "react-router-dom";
 import "./Map.css"; // Ensure you have styling for the search input and suggestions
-
+import HyperText from "./components/textanimate";
 const containerStyle = {
   width: '100vw',
   height: '100vh'
@@ -119,6 +119,11 @@ const Map = () => {
         heatmapRef.current.setMap(null); // Clear existing heatmap layer
       }
 
+      if(map){
+        map.setZoom(3);
+        map.setCenter(center);
+      }    
+
       heatmapRef.current = new window.google.maps.visualization.HeatmapLayer({
         data: sightings,
         map: map,
@@ -183,6 +188,7 @@ const Map = () => {
 
   return (
     <>
+    <div className="UI">
       <div className="searchContainer">
         <Link to="/"><button className='back-button-map'>Back</button></Link>
         <ReactSearchAutocomplete
@@ -197,6 +203,10 @@ const Map = () => {
         {gif !== '' && <img className="animal-gif" src={gif} alt="Animal GIF" />}
       </div>
 
+  <div className="margin"> <HyperText text='Welcome to the Map Page!' /></div>
+ 
+
+      </div>
       <LoadScript
         googleMapsApiKey={import.meta.env.VITE_API_KEY}
         libraries={['visualization']} // Required for heatmap
@@ -210,6 +220,8 @@ const Map = () => {
           options={{ disableDefaultUI: true, colorScheme: mode === 'DARK' ? 'dark' : 'light', minZoom: 3 }}
         />
       </LoadScript>
+
+
     </>
   );
 };

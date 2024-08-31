@@ -27,13 +27,14 @@ height:50px;
 width:50px;
 }
 .map {
-  top:0%;
-  height: 100vh ;
+  position: absolute; /* Ensure it's positioned correctly */
+  top: 0;
+  height: 100vh;
   width: 100vw;
+  z-index: 0; /* Lower than .page */
   margin: 0;
   padding: 0;
 }
-
 
 
 .back-button-map {
@@ -56,10 +57,56 @@ width: 100px;
 height: 50px;
   -webkit-user-select: none;
   touch-action: manipulation;
+
+  z-index: 3; /* Above the map and .page */
 }
 @media (max-width: 768px) {
   .back-button-map {
     border-radius: 10px; height: 50px; width: 50px;
   }
 }
+.searchContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top: 30px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* Lower than .page */
+  width: 90%;
+  height: 10%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+*/
+.margin{
+  width:300px;
+  height:300px;
+  background-color: #5002EF;
+}
+#hi{
+  max-width:200px;
+  font-size: 20px;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  flex-wrap: wrap;
+  max-width: 290px; /* Adjust to control wrapping */
+  word-break: break-word; /* Ensure long words are broken */
+}
+
+/* Add this to your CSS file */
+.space {
+  display: inline-block; /* Ensures space is rendered properly */
+  width: 0.75em; /* Adjust width to match your font size and spacing */
+}
+.UI{
+  display: flex;
+  flex-direction: column;
   
+}
