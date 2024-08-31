@@ -6,6 +6,7 @@ export default function PhotoProcessing(props) {
     const [labels, setLabels] = useState([]);
 
     const image = props.image;
+    console.log(image);
 
     const fetchLabels = async () => {
         try {

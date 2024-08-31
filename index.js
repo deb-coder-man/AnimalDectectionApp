@@ -17,10 +17,10 @@ app.use(cors());
 app.use(express.json());
 
 
-function encodeImage(imagePath) {
-  const image = fs.readFileSync(imagePath);
-  return image.toString('base64');
-}
+// function encodeImage(imagePath) {
+//   const image = fs.readFileSync(imagePath);
+//   return image.toString('base64');
+// }
 
 app.post('/openai', async (req, res) => {
   try {
@@ -38,7 +38,7 @@ app.post('/openai', async (req, res) => {
             {
               type: "image_url",
               image_url: {
-                "url": `data:image/jpeg;base64,${image}`,
+                "url": `${image}`,
               },
             },
           ],
