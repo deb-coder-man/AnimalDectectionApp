@@ -22,11 +22,10 @@ export default function PhotoProcessing(props) {
         }
     };
 
+    fetchLabels();
+
     return (
         <div>
-            <h1>Label Detection</h1>
-            <img style={{width: "400px"}} src="./cat.jpeg"/>
-            <button style={{width: "100px"}} onClick={fetchLabels}>Analyse Image</button>
             <h1>{labels}</h1>
         </div>
     );

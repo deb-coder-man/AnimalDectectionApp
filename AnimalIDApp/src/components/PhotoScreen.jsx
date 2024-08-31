@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import PhotoProcessing from '../PhotoProcessing';
 
 function PhotoScreen() {
   const [animalName, setAnimalName] = useState("Name of the Animal");
@@ -77,7 +78,7 @@ function PhotoScreen() {
         <p><strong>Name:</strong> {animalName}</p>
         <p><strong>Species:</strong> {species}</p>
         <p><strong>Description:</strong> {description}</p>
-        {image && <img src={image} alt="Captured" style={{ width: '100%', height: 'auto' }} />}
+        {image && <PhotoProcessing image={image} />}
       </div>
       <button onClick={goBack}>Go Back to Home</button>
     </div>
