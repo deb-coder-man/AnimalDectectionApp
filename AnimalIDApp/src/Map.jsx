@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { db } from './firebase';
+import React, { useState, useEffect, useRef } from 'react';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { database, ref, get } from './firebase';
 
 const containerStyle = {
   width: '100%',
@@ -13,50 +13,68 @@ const center = {
 };
 
 const Map = () => {
-  const [markers, setMarkers] = useState([]);
+  const [map, setMap] = useState(null);
+  const [animalData, setAnimalData] = useState([]);
+  const heatmapRef = useRef(null);
 
-//   useEffect(() => {
-//     Retrieve markers data from Firebase
-//     const markersRef = database.ref('markers'); // Adjust the path to your database
+  useEffect(() => {
+    const fetchAnimalData = async () => {
+      try {
+        const dbRef = ref(database, 'sightings/redFox');
+        const snapshot = await get(dbRef);
 
-//     markersRef.on('value', (snapshot) => {
-//       const data = snapshot.val();
-//       const loadedMarkers = [];
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const formattedData = Object.values(data).map((sighting) => ({
+            latitude: sighting.latitude,
+            longitude: sighting.longitude
+          }));
+          setAnimalData(formattedData);
+        } else {
+          console.log('No data available');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-//       for (let id in data) {
-//         loadedMarkers.push(data[id]);
-//       }
+    fetchAnimalData();
+  }, []);
 
-//       setMarkers(loadedMarkers);
-//     });
+  useEffect(() => {
+    if (map && window.google && window.google.maps) {
+      const heatmapData = animalData.map(animal =>
+        new window.google.maps.LatLng(animal.latitude, animal.longitude)
+      );
 
-//     Cleanup listener on component unmount
-//     return () => markersRef.off();
-//   }, []);
+      if (heatmapRef.current) {
+        heatmapRef.current.setMap(null); // Remove previous heatmap layer if it exists
+      }
 
-  const mapOptions = {
-    mapTypeId: 'satellite',
+      heatmapRef.current = new window.google.maps.visualization.HeatmapLayer({
+        data: heatmapData,
+        map: map,
+        radius: 30,
+      });
+    }
+  }, [map, animalData]);
+
+  const onMapLoad = (mapInstance) => {
+    setMap(mapInstance);
   };
 
   return (
     <div>
       <LoadScript
-        googleMapsApiKey="AIzaSyBJgb5sVPOXGL2kE51OLSaIs9eUUHxSDWY" // Replace with your API key
+        googleMapsApiKey={import.meta.env.VITE_API_KEY}
+        libraries={['visualization']}
       >
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
-          zoom={90}
-          options={mapOptions}
-        >
-          {markers.map((position, index) => (
-            <Marker
-              key={index}
-              position={position}
-              title={`Marker ${index + 1}`}
-            />
-          ))}
-        </GoogleMap>
+          zoom={15}
+          onLoad={onMapLoad}
+        />
       </LoadScript>
     </div>
   );
