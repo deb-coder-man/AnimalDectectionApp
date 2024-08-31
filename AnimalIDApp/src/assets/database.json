@@ -1,0 +1,14 @@
+{
+    "sightings": {
+      "redFox": {
+        "sighting1": {
+          "latitude": -36.90689993565643,
+          "longitude": 174.8362967225019
+        },
+        "sighting2": {
+          "latitude": -36.90889993565643,
+          "longitude": 174.8382967225019
+        }
+      }
+    }
+  }

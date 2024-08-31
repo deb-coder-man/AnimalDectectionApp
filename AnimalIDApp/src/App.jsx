@@ -1,23 +1,8 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import MainScreen from "./components/MainScreen";
-import MapScreen from "./components/MapScreen";
-import PhotoScreen from "./components/PhotoScreen";
-import './App.css'
+import React from 'react';
+import Map from './Map';
 
-function App() {
-  return (
-    <div>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainScreen />} />
-        <Route path="/map" element={<MapScreen />} />
-        <Route path="/photo" element={<PhotoScreen />} />
-      </Routes>
-    </BrowserRouter>
-    
-    </div>
-  );
+const App = () => {
+    return <Map />
 }
 
 export default App; 
