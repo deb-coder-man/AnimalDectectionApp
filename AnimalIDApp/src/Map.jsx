@@ -116,6 +116,11 @@ const Map = () => {
         heatmapRef.current.setMap(null); // Clear existing heatmap layer
       }
 
+      if(map){
+        map.setZoom(3);
+        map.setCenter(center);
+      }
+    
       heatmapRef.current = new window.google.maps.visualization.HeatmapLayer({
         data: sightings,
         map: map,
@@ -139,6 +144,7 @@ const Map = () => {
     setEnteredAnimal(item.name);
   };
 
+  
   const formatResult = (item) => {
     return (
       <span>{item.name}</span>
