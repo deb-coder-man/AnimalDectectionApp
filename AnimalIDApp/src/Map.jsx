@@ -5,6 +5,7 @@ import { ref, get } from "firebase/database";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import "./Map.css"; // Ensure you have styling for the search input and suggestions
 
+
 const containerStyle = {
   width: '100vw',
   height: '100vh'
@@ -15,7 +16,27 @@ const center = {
   lng: 174.8362967225019
 };
 
+
+
+const fetchGIFs = async (searchTerm) => {
+  const apiKey = import.meta.env.VITE_TENOR_APIKEY // Replace with your actual API key
+  const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(searchTerm)}&key=${apiKey}&limit=10`;
+
+  try {
+    const response = await axios.get(url);
+    const gifs = response.data.results;
+    
+    // Log the GIF URLs
+    gifs.forEach(gif => {
+      console.log(gif.url); // URL to the GIF page
+      console.log(gif.media_formats.gif.url); // URL to the actual GIF
+    });
+  } catch (error) {
+    console.error('Error fetching GIFs:', error);
+  }
+};
 const Map = () => {
+  fetchGIFs('cats');
   const [map, setMap] = useState(null);
   const [enteredAnimal, setEnteredAnimal] = useState('');
   const [sightings, setSightings] = useState([]);
@@ -111,6 +132,7 @@ const Map = () => {
 
   const handleSearch = (string, results) => {
     setEnteredAnimal("");
+    console(fetchTimeZone(-36.8485, 174.7633, Math.floor(Date.now() / 1000)));
   };
 
   const handleSelect = (item) => {
@@ -123,11 +145,40 @@ const Map = () => {
     );
   };
 
+  
+
   // Filter names based on the enteredAnimal in correct order
   const filteredNames = enteredAnimal.trim() === '' ? names : names.filter(name => 
     name.toLowerCase().includes(enteredAnimal.toLowerCase())
   );
+  const fetchTimeZone = async (latitude, longitude, timestamp) => {
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${latitude},${longitude}&timestamp=${timestamp}&key=${apiKey}`;
+    
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      if (data.status === 'OK') {
+        console.log('Time Zone ID:', data.timeZoneId);
+        console.log('Time Zone Name:', data.timeZoneName);
 
+        const localTime = new Date((timestamp + data.dstOffset) * 1000);
+        console.log('Local Time:', localTime.toLocaleString("en-US", { timeZone: data.timeZoneId }));
+
+      } else {
+        console.error('Error:', data.status);
+      }
+    } catch (error) {
+      console.error('Request failed:', error);
+    }
+  };
+  
+  const latitude = -36.8485;
+  const longitude = 174.7633;
+  const timestamp = Math.floor(Date.now() / 1000);
+  
+  fetchTimeZone(latitude, longitude, timestamp);
   return (
     <>
       <div className="searchContainer">
