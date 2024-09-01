@@ -122,8 +122,8 @@ function PhotoScreen() {
 
         <input className="Input-Box" type="file" accept="image/*" onChange={handleImageChange} />
         
-        <h1 style={{fontSize: "2rem"}}>OR</h1>
-        <button className="button-33" onClick={activateCamera}>Open Camera</button>
+        {window.innerWidth >= 768 && <h1 style={{fontSize: "2rem"}}>OR</h1>}
+        {window.innerWidth >= 768 && <button className="button-33" onClick={activateCamera}>Open Camera</button>}
       </div>
       <div style={{margin: "40px",
                   marginBottom: "5px",

@@ -131,7 +131,6 @@ export default function PhotoProcessing(props) {
             console.error("Error saving sighting to database:", error);
         }
     };
-    //<------------------------------>
 
     return (
         <div>
@@ -151,6 +150,9 @@ export default function PhotoProcessing(props) {
     )
             
 };
+
+
+
 
   
 

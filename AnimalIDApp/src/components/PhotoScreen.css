@@ -43,6 +43,7 @@
   /* Camera container styles */
   .camera-container {
     margin: 20px 0;
+    height: auto;
   }
   
   .video, .image {
@@ -146,6 +147,11 @@
     width: 100%;  /* Full width to fit mobile screens */
     height: auto;  /* Maintain aspect ratio */
     max-width: none;  /* Overrides any set max-width */
+  }
+
+  .Open-Camera {
+    background-color: transparent;
+    color: transparent;
   }
 }
   
