@@ -65,7 +65,7 @@
     cursor: pointer;
     display: inline-block;
     font-family: "New Amsterdam";
-    padding: 1px 30px;
+    padding: 5px 30px;
     text-align: center;
     text-decoration: none;
     transition: all 250ms;
@@ -75,6 +75,11 @@
     -webkit-user-select: none;
     touch-action: manipulation;
     margin: 10px 20px;
+    margin-top: 30px;
+
+    display: flex; /* Uses flexbox for layout */
+    align-items: center; /* Aligns children (icon and text) vertically in the center */
+    justify-content: center;
 }
 
 .home-button:hover {
@@ -83,7 +88,8 @@
 }
 
 .home-button i {
-    margin-right: 10px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
 
 

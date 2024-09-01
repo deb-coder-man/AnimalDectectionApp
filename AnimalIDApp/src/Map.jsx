@@ -13,8 +13,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 0,
-  lng: 0
+  lat: -36.8485,
+  lng: 174.7633
 };
 
 const Map = () => {
@@ -227,7 +227,7 @@ const Map = () => {
     <>
       <div className="UI">
         <div className="searchContainer">
-          <Link to="/"><button className='back-button-map'><i className="fas fa-home"></i>Home</button></Link>
+          <Link to="/"><button className='home-button'><i className="fas fa-home"></i>Home</button></Link>
           <ReactSearchAutocomplete
             items={filteredNames.map(name => ({ id: name, name }))}
             onSearch={handleSearch}
