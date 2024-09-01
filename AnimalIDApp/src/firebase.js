@@ -1,7 +1,7 @@
 // firebase.js
 
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, push } from "firebase/database";
+import { getDatabase, ref, get, push, update } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -33,4 +33,4 @@ get(testRef)
     console.error("Error fetching data from the database:", error);
   });
 
-export { app, database, get, ref, push };
+export { app, database, get, ref, push, update };

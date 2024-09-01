@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { database } from './firebase';
-import { ref, get } from "firebase/database";
+import { ref, get } from 'firebase/database';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
-import { Link } from "react-router-dom";
-import "./Map.css"; // Ensure you have styling for the search input and suggestions
-import HyperText from "./components/textanimate";
+import { Link } from 'react-router-dom';
+import './Map.css';
+import HyperText from './Style Components/HyperText';
+
 const containerStyle = {
   width: '100vw',
   height: '100vh'
 };
+
 const center = {
-  lat: -36.90689993565643,
-  lng: 174.8362967225019
+  lat: 0,
+  lng: 0
 };
 
 const Map = () => {
@@ -20,8 +22,8 @@ const Map = () => {
   const [enteredAnimal, setEnteredAnimal] = useState('');
   const [sightings, setSightings] = useState([]);
   const [names, setNames] = useState([]);
-  const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [gif, setGif] = useState('');
+  const [closestText, setClosestText] = useState('');
   const heatmapRef = useRef(null);
   const [mode, setMode] = useState('LIGHT'); // Default mode
 
@@ -37,18 +39,31 @@ const Map = () => {
           const animalNames = Object.values(data).map(species => species.name);
           setNames(animalNames);
         } else {
-          console.log("No data found.");
+          console.log('No data found.');
         }
       } catch (error) {
-        console.error("Error fetching animal names:", error);
+        console.error('Error fetching animal names:', error);
       }
     };
 
     fetchAnimalNames();
   }, []);
 
+  const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in kilometers
+  };
+
+
+
   async function fetchGIF(searchTerm) {
-    const apiKey = import.meta.env.VITE_TENOR_API_KEY; // Ensure correct API key environment variable
+    const apiKey = import.meta.env.VITE_TENOR_APIKEY; // Ensure correct API key environment variable
     const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(searchTerm)}&key=${apiKey}&limit=1`;
 
     try {
@@ -91,7 +106,10 @@ const Map = () => {
               if (species.sightings) {
                 Object.values(species.sightings).forEach(sighting => {
                   sightingsList.push(
-                    new window.google.maps.LatLng(sighting.latitude, sighting.longitude)
+                    {
+                      lat: sighting.latitude,
+                      lng: sighting.longitude
+                    }
                   );
                 });
               }
@@ -99,38 +117,57 @@ const Map = () => {
           });
 
           setSightings(sightingsList);
-          console.log("Loaded sightings:", sightingsList);
+          console.log('Loaded sightings:', sightingsList);
+
+          // Find closest points
+          findClosestPoints(sightingsList);
         } else {
-          console.log("No data found.");
+          console.log('No data found.');
           setSightings([]);
         }
       } catch (error) {
-        console.error("Error fetching sightings data:", error);
+        console.error('Error fetching sightings data:', error);
       }
     };
 
     fetchSightings();
   }, [enteredAnimal]);
+  const findClosestPoints = (sightingsList) => {
+    if (sightingsList.length === 0) return;
+
+    const distances = sightingsList.map(sighting => {
+      const distance = haversineDistance(center.lat, center.lng, sighting.lat, sighting.lng);
+      return { distance, location: sighting };
+    });
+
+    distances.sort((a, b) => a.distance - b.distance);
+    const closestPoints = distances.slice(0, 3);
+    setClosestText(closestPoints.map(point => {
+     
+        return `• ${point.distance.toFixed(2)} km `;
+      
+      return '';
+    }).join(' \n')); // Update state with closest points
+  };
 
   useEffect(() => {
-    // Initialize heatmap once the map and sightings data are available
     if (map && sightings.length > 0 && window.google && window.google.maps) {
       if (heatmapRef.current) {
         heatmapRef.current.setMap(null); // Clear existing heatmap layer
       }
 
-      if(map){
+      if (map) {
         map.setZoom(3);
         map.setCenter(center);
-      }    
+      }
 
       heatmapRef.current = new window.google.maps.visualization.HeatmapLayer({
-        data: sightings,
+        data: sightings.map(sighting => new window.google.maps.LatLng(sighting.lat, sighting.lng)),
         map: map,
         radius: 20, // Adjust the radius of the heatmap
       });
 
-      console.log("Heatmap updated.");
+      console.log('Heatmap updated.');
     }
   }, [map, sightings]);
 
@@ -168,7 +205,7 @@ const Map = () => {
 
       if (data.status === 'OK') {
         const localTime = new Date((timestamp + data.dstOffset) * 1000);
-        console.log('Local Time:', localTime.toLocaleString("en-US", { timeZone: data.timeZoneId }));
+        console.log('Local Time:', localTime.toLocaleString('en-US', { timeZone: data.timeZoneId }));
         setMode(localTime.getHours() >= 18 ? 'DARK' : 'LIGHT');
       } else {
         console.error('Error:', data.status);
@@ -188,42 +225,55 @@ const Map = () => {
 
   return (
     <>
-    <div className="UI">
-      <div className="searchContainer">
-        <Link to="/"><button className='back-button-map'>Back</button></Link>
-        <ReactSearchAutocomplete
-          items={filteredNames.map(name => ({ id: name, name }))}
-          onSearch={handleSearch}
-          onSelect={handleSelect}
-          formatResult={formatResult}
-          className='animalInput'
-          placeholder="Type animal name"
-          autoFocus
-        />
-        {gif !== '' && <img className="animal-gif" src={gif} alt="Animal GIF" />}
-      </div>
+      <div className="UI">
+        <div className="searchContainer">
+          <Link to="/"><button className='back-button-map'><i className="fas fa-home"></i>Home</button></Link>
+          <ReactSearchAutocomplete
+            items={filteredNames.map(name => ({ id: name, name }))}
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            formatResult={formatResult}
+            className='animalInput'
+            placeholder="Type animal name"
+            autoFocus
+          />
+          {gif !== '' && <img className="animal-gif" src={gif} alt="Animal GIF" />}
+        </div>
 
-  <div className="margin"> <HyperText text='Welcome to the Map Page!' /></div>
- 
-
+        <div className="hyper">
+        {enteredAnimal.trim() !== '' && (
+  <>
+    <h1 className="distance distance-title">Closest {enteredAnimal}:</h1>
+    <h1 className="distance distance-text"><pre>{closestText}</pre></h1>
+  </>
+)}
+        
       </div>
+    </div>
+
       <LoadScript
         googleMapsApiKey={import.meta.env.VITE_API_KEY}
         libraries={['visualization']} // Required for heatmap
       >
         <GoogleMap
-          style={{ height: "100vh" }}
+          style={{ height: '100vh' }}
           mapContainerStyle={containerStyle}
           center={center}
           zoom={15} // Adjusted zoom level
           onLoad={onMapLoad}  // Save the map instance
-          options={{ disableDefaultUI: true, colorScheme: mode === 'DARK' ? 'dark' : 'light', minZoom: 3 }}
+          options={{ disableDefaultUI: true, styles: mode === 'DARK' ? darkModeStyle : lightModeStyle, minZoom: 3 }}
         />
       </LoadScript>
-
-
     </>
   );
 };
+
+const darkModeStyle = [
+  // Dark mode styles here
+];
+
+const lightModeStyle = [
+  // Light mode styles here
+];
 
 export default Map;

@@ -1,30 +1,57 @@
 import { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import PhotoProcessing from '../PhotoProcessing';
+import Location from '../Style Components/Popup';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 
 function PhotoScreen() {
-  const [image, setImage] = useState(null);  // State to hold the captured image
-  const [showCamera, setShowCamera] = useState(false);  // State to show/hide the camera
-  const [showImage, setShowImage] = useState(false);  // State to show/hide the captured image
+  const [image, setImage] = useState(null);  
+  const [showCamera, setShowCamera] = useState(false);  
+  const [showImage, setShowImage] = useState(false);  
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const [latitude, setLatitude] = useState(null)
+  const [longitude, setLongitude] = useState(null)
+  const [loadingLocationBox, setLoadingLocationBox] = useState(false)
+
+  const [finalLocation, setFinalLocation] = useState("")
+  const [variableLocation, setVariableLocation] = useState("")
 
   // Function to handle back navigation
   const goBack = () => {
-    navigate('/');  // Navigate to the home page
+    navigate('/');  
   };
 
-  // Function to handle image file selection
-  const handleImageChange = (event) => {
+  
+  const handleImageChange = async (event) => {
+
+
+    setLoadingLocationBox(true)
+    
+
     const file = event.target.files[0];
+
     if (file) {
+
       const reader = new FileReader();
+
       reader.onload = (e) => {
         setImage(e.target.result);
       };
       reader.readAsDataURL(file);
+      if( 'geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLatitude(position.coords.latitude)
+            setLongitude(position.coords.longitude)
+          },
+          (error) => {
+          }
+        );
+      }
     }
     setShowImage(true);
   };
@@ -33,6 +60,7 @@ function PhotoScreen() {
   const activateCamera = async () => {
     setShowCamera(true);
     setShowImage(false);
+    setLoadingLocationBox(false)
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
         const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -64,17 +92,14 @@ function PhotoScreen() {
       const context = canvasRef.current.getContext('2d');
       context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
       setImage(canvasRef.current.toDataURL('image/png'));
-      stopCamera();  // Stop camera after capturing the image
+      stopCamera();  
       if( 'geolocation' in navigator){
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            // Success callback
-            const { latitude, longitude } = position.coords;
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            setLatitude(position.coords.latitude)
+            setLongitude(position.coords.longitude)
           },
           (error) => {
-            // Error callback
-            console.error(`Error Code = ${error.code}: ${error.message}`);
           }
         );
       }
@@ -82,8 +107,10 @@ function PhotoScreen() {
     }
   };
 
+
   return (
     <div className="AnimalInfo-container">
+      
       <h1 style={{marginTop: "50px"}}>Snap & Identify</h1>
       <div style={{
         display: "flex",
@@ -91,8 +118,10 @@ function PhotoScreen() {
         justifyContent: "center",
         gap: "3rem",
       }}>
-        <h1 style={{fontSize: "2rem"}}>UPLOAD AN IMAGE</h1>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <h2 style={{fontSize: "2rem"}}>UPLOAD AN IMAGE</h2>
+
+        <input className="Input-Box" type="file" accept="image/*" onChange={handleImageChange} />
+        
         <h1 style={{fontSize: "2rem"}}>OR</h1>
         <button className="button-33" onClick={activateCamera}>Open Camera</button>
       </div>
@@ -117,18 +146,18 @@ function PhotoScreen() {
           margin: '20px'
         }}>
           {showCamera && <video ref={videoRef} style={{ width: '600px' }} />}
-          {showImage && <img src={image} alt="Captured" style={{ width: '600px', height: 'auto', borderRadius: "3rem" }} />}
+          {showImage && <img className="Animal-Image" src={image} alt="Captured" style={{ width: '600px', height: '400px', borderRadius: "3rem" }} />}
           <canvas ref={canvasRef} style={{ display: 'none' }} width="300" height="200"></canvas>
           {showCamera && <button className="capture" onClick={captureImage}>Capture</button>}
         </div>
         <div>
-          {showImage && <PhotoProcessing image={image} />}
+          {showImage && <PhotoProcessing image={image} latitude={latitude} longitude={longitude} finalLocation={finalLocation} />}
         </div>
       </div>
-      <div className = "home-button-container"> <button className = "home-button" onClick={goBack}><i className ="fas fa-home"></i> Home </button></div>
       
+      <div className = "home-button-container"> <button className = "home-button" onClick={goBack}><i className ="fas fa-home"></i> Home </button></div>
     </div>
   );
 }
-
+  
 export default PhotoScreen;

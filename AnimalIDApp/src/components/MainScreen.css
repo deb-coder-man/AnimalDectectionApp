@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    justify-content: center;
     height: 100vh;
     background-color: #beedbe;
     color: #333;
@@ -12,13 +12,15 @@
 }
 
 .main-title {
-    margin-top: 40vh;
+    /* margin-top: 40vh; */
     text-align: center;
     font-size: 7em;
     color:beige;
     font-family: "New Amsterdam";
     /*color: #4a5568; */
 }
+
+
 
 
 /* CSS */
@@ -52,7 +54,7 @@
 .home-button-container {
     position: absolute;  /* Positioning relative to the nearest positioned ancestor */
     top: 20px;           /* 20px from the top of the ancestor */
-    right: 20px;         /* 20px from the right side of the ancestor */
+    left: 10px;         /* 10px from the right side of the ancestor */
 }
 
 .home-button {
@@ -82,5 +84,57 @@
 
 .home-button i {
     margin-right: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .main-container {
+      background-size: cover; /* Adjust background to cover the smaller screen without tiling */
+      padding: 20px; /* Add some padding around the content */
+  }
+
+  .main-title {
+      font-size: 4em; /* Scale down the font size for mobile */
+      margin-top: 40px; /* Reduce the top margin */
+  }
+
+  .button-33 {
+    
+      font-size: 25px; /* Smaller font size for buttons */
+      padding: 20px 40px; /* Reduce padding to fit smaller screens */
+      margin: 20px; /* Smaller margins */
+  }
+
+  /* Adjust the layout of button container to stack buttons vertically on smaller screens */
+  div[style*="flex"] {
+      flex-direction: column;
+      gap: 1rem; /* Reduce gap size */
+  }
+
+  /* Ensure home button is visible and not too intrusive */
+  .home-button-container {
+      top: 10px;
+      left: 10px;
+  }
+
+  .home-button {
+      padding: 5px 15px; /* Smaller padding */
+      font-size: 14px; /* Smaller font size */
+  }
+
+  .button-container {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  video, img {
+      width: 100%; /* Make videos and images responsive */
+      height: auto; /* Maintain aspect ratio */
+      max-width: none; /* Override any max-width settings */
+  }
 }
 

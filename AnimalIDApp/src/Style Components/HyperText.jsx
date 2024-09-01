@@ -65,8 +65,12 @@ export default function HyperText({
         {displayText.map((letter, i) => (
           <motion.h1
             key={i}
-            className={`${letter === " " ? "w-3" : ""} ${className}`}
-            style={{ display: "inline-block" }} // Ensure letters are inline
+            className={`${className}`}
+            style={{
+              display: "inline-block", // Ensure letters are inline
+              marginRight: letter === " " ? "0.3em" : "0", // Add space for spaces
+              whiteSpace: "pre", // Preserve spaces
+            }}
             {...framerProps}
           >
             {letter.toUpperCase()}

@@ -79,3 +79,75 @@
   box-shadow: #D6D6E7 0 3px 7px inset;
   transform: translateY(2px);
 }
+
+.img {
+  max-width: fit-content;
+  max-height: fit-content;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .AnimalInfo-container {
+    height: 100vh;  /* Allows container to grow with content */
+    padding: 20px 10px;  /* Reduces padding, adds vertical space */
+    background-size: cover;  /* Ensures background covers adjusted height */
+
+  }
+
+  .AnimalInfo-container h2 {
+    font-size: 1em;
+  }
+
+
+  .AnimalInfo-container h1 {
+    font-family: "New Amsterdam";
+  }
+  .AnimalInfo-container h1, .Animal-Container h3, .Animal-Container p {
+    font-size: 3rem;  /* Scales down font size */
+  }
+
+  .Animal-Container > p {
+    font-size: 15px;
+  }
+
+  .button-33, .capture, .home-button {
+    font-size: 16px;  /* Smaller font size */
+    padding: 8px 16px;  /* Smaller padding */
+    margin: 5px;  /* Reduces margin */
+  }
+
+  /* Reduce gaps and ensure buttons and inputs fit on screen */
+  div[style*="flex"] {
+    gap: 10px;  /* Smaller gaps */
+    flex-direction: column;  /* Stacks elements vertically */
+  }
+
+  /* Adjust media elements sizes */
+  video, img {
+    width: auto;  /* Full width to fit mobile screens */
+    height: auto;  /* Maintain aspect ratio */
+  }
+
+  .Animal-Image {
+    max-width: 90vw;
+    height: auto;
+  }
+
+
+
+  .Animal-Container {
+    max-width: 90vw;
+  }
+
+  .Input-Box[type="file"] {
+    font-size: 15px;
+    padding: 1rem;
+  }
+
+
+}
+
+
+

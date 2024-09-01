@@ -1,0 +1,151 @@
+/* Basic styles for the container */
+.container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .title {
+    margin-top: 20px;
+    font-size: 2rem;
+  }
+  
+  /* Upload container styles */
+  .upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .file-input {
+    font-size: 1rem;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Camera container styles */
+  .camera-container {
+    margin: 20px 0;
+  }
+  
+  .video, .image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .canvas {
+    display: none;
+  }
+  
+  .capture-button {
+    margin-top: 10px;
+  }
+  
+  .home-button-container {
+    margin-top: 20px;
+  }
+  
+  .home-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #2ecc71;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .home-button:hover {
+    background-color: #27ae60;
+  }
+  
+  /* Media queries for mobile responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .title {
+      font-size: 1.8rem;
+    }
+  
+    .subtitle {
+      font-size: 1.2rem;
+    }
+  
+    .button {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+  
+    .home-button {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 1.5rem;
+    }
+  
+    .subtitle {
+      font-size: 1rem;
+    }
+  
+    .button, .home-button {
+      font-size: 0.8rem;
+      padding: 7px 12px;
+    }
+  }
+
+  @media (max-width: 768px) {
+  .AnimalInfo-container {
+    height: auto;  /* Allows container to grow with content */
+    padding: 20px 10px;  /* Reduces padding, adds vertical space */
+    background-size: cover;  /* Ensures background covers adjusted height */
+  }
+
+  .AnimalInfo-container h1, .Animal-Container h3, .Animal-Container p {
+    font-size: 1.5rem;  /* Scales down font size */
+  }
+
+  .button-33, .capture, .home-button {
+    font-size: 16px;  /* Smaller font size */
+    padding: 8px 16px;  /* Smaller padding */
+    margin: 5px;  /* Reduces margin */
+  }
+
+  /* Reduce gaps and ensure buttons and inputs fit on screen */
+  div[style*="flex"] {
+    gap: 10px;  /* Smaller gaps */
+    flex-direction: column;  /* Stacks elements vertically */
+  }
+
+  /* Adjust media elements sizes */
+  video, img {
+    width: 100%;  /* Full width to fit mobile screens */
+    height: auto;  /* Maintain aspect ratio */
+    max-width: none;  /* Overrides any set max-width */
+  }
+}
+  
