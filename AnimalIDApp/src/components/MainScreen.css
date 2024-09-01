@@ -6,7 +6,7 @@
     height: 100vh;
     background-color: #beedbe;
     color: #333;
-    background-image: url('./LeafyBack.png');
+    background-image: url('/LeafyBack.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;  
 }

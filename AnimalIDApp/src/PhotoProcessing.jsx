@@ -11,6 +11,8 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser: true
 });
 
+
+
 const toCamelCase = (inputString) => {
     const words = inputString.split(' ');
 
